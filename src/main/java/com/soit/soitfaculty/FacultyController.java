@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.soit.soitfaculty.entity.Faculty;
 import com.soit.soitfaculty.service.FacultyService;
@@ -49,11 +50,22 @@ public class FacultyController {
 	//Mapping for '/list'
 	@GetMapping("/list")
 	public String listFaculties(Model theModel) {
-		//Retrive faculties from the database
+		//Retrieve faculties from the database
 		List<Faculty> theFaculties = facultyService.findAll();
 		//Add Faculties to the spring model 
 		theModel.addAttribute("faculties", theFaculties);
 		return "faculties/list-faculties";
+	}
+	@GetMapping("/viewUpdateForm")
+	public String viewUpdateForm(@RequestParam("facultyId") int theId, Model theModel) {
+		//Retrieve the faculty info from the service layer
+		Faculty theFaculty = facultyService.findById(theId);
+		//Re-populate the form
+		theModel.addAttribute(theFaculty);
+		
+		//Redirect us to faculty form 
+		
+		return "faculties/faculty-form";
 	}
 	@GetMapping("/viewAddForm")
 	public String viewAddForm(Model theModel) {
@@ -69,5 +81,14 @@ public class FacultyController {
 		//block the duplicates submission for accidental refresh
 		
 		return "redirect:/Faculties/list";
+	}
+	@GetMapping("/delete")
+	public String delete(@RequestParam("facultyId") int theId, Model theModel) {
+		//remove faculty
+		facultyService.deleteById(theId);
+		
+		//reirect faculty
+		return "redirect:/Faculties/list";
+		
 	}
 }

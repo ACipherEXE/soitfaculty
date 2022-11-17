@@ -17,9 +17,13 @@
 <body>
 	<div class="container">
 	<h4>school of it faculty</h4>
+	<a class="btn btn-danger" data-toggle="collapse" th:href="@{/Faculties/list}" role="button" aria-expanded="false" aria-controls="collapseExample">List of faculties</a>
 	<hr>
 	<p class="h4 mb-4">Register Faculty</p>
-	<form action="#" th:action="@{Faculties/Save}" th:object="${faculty}" method="POST">
+	<form action="#" th:action="@{/Faculties/save}" th:object="${faculty}" method="POST">
+	<!-- invisible form as needed to update info-->
+	<input type="hidden" th:field="*{id}"/>
+	
 	<input 
 	type="text" 
 	th:field="*{firstName} " 
@@ -32,7 +36,7 @@
 	placeholder="Last Name">
 	<input 
 	type="text" 
-	th:field="*{Title} " 
+	th:field="*{title} " 
 	class="form-control mb-4 col-4" 
 	placeholder="Title">
 	<input 
